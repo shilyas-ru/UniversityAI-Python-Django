@@ -1,0 +1,22 @@
+{% extends "app_blog/base.html" %}
+
+{% block title %}
+    Это заголовок страницы about.html
+{% endblock %}
+
+<!-- Page Header-->
+{% block site-heading %}Заголовок страницы about.html{% endblock %}
+{% block site-subheading %}about.html - подзаголовок (заголовок 2 уровня){% endblock %}
+
+        <!-- Main Content-->
+        {% block begin_main_content_tag %}
+            <main class="mb-4">
+        {% endblock %}
+            {% block content %}
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    {% include "app_blog/lesson_summary.html" %}
+                </div>
+            {% endblock %}
+        {% block end_main_content_tag %}
+            </main>
+        {% endblock %}

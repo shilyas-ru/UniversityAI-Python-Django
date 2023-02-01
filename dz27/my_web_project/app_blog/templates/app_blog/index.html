@@ -1,0 +1,48 @@
+{% extends "app_blog/base.html" %}
+
+{% block title %}
+    Это заголовок страницы index.html
+{% endblock %}
+
+<!-- Page Header-->
+{% block site-heading %}Заголовок страницы index.html{% endblock %}
+{% block site-subheading %}index.html - подзаголовок (заголовок 2 уровня){% endblock %}
+
+        <!-- Main Content-->
+
+            {% block content %}
+
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    {% for item in articles %}
+                    <!-- Post preview-->
+                    <div class="post-preview">
+                        <a href="{% url 'my_blog_app:post' id=item.id %}">
+                            <h2 class="post-title">
+                                {{ item.title }} - этот заголовок ссылка
+                            </h2>
+                        </a>
+                            <h3 class="post-subtitle">
+                                Тут будет какое-то описание - а этот заголовок не ссылка
+                            </h3>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="#!">Start Bootstrap</a>
+                            on <br>
+                                Значение published целиком: {{ item.published }} <br>
+                                Значение published в формате "d/m/Y": {{ item.published|date:"d/m/Y" }}<br>
+                                Значение published в формате "d E Y": {{ item.published|date:"d E Y" }}
+                            <!-- Фильтры шаблонов^
+                                 https://metanit.com/python/django/2.8.php -->
+                        </p>
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    {% endfor %}
+
+                    <!-- Pager-->
+                    <div class="d-flex justify-content-end mb-4">
+                        <a class="btn btn-primary text-uppercase"
+                           href="#!">Older Posts (ссылка не работает) →</a>
+                    </div>
+                </div>
+            {% endblock %}

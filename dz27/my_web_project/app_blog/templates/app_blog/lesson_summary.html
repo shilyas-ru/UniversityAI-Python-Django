@@ -1,0 +1,145 @@
+<h1>Сводка по занятию (без формы и отправки почты)</h1>
+     <!-- код символа апостроф (') html - &#39
+           -
+          Символ    Мнемоника   HTML-код    CSS-код     Юникод      Название
+           {        &lbrace;    &#123;      \007B       U+007B      Левая фигурная скобка
+           }        &rbrace;    &#125;      \007D       U+007D      Правая фигурная скобка
+           %        &percnt;    &#37;       \0025       U+0025      Знак процента
+           &        &amp;       &#38;       \0026       U+0026      Амперсанд
+           '        &apos;      &#39;       \0027       U+0027      Апостроф (одинарная кавычка)
+     -->
+<ol>
+  <li>Редактируем файл my_site/my_site/urls.py:</li>
+    <pre>
+      urlpatterns = [
+          path('admin/', admin.site.urls),
+          path('', include('blogapp.urls',
+                           namespace='blog'))
+      ]
+    </pre>
+
+  <li>Редактируем файл my_site/my_app/urls.py:</li>
+    <pre>
+      from django.urls import path
+      from blogapp import views
+
+      app_name = 'gfg' # любой текст вместо 'gfg'
+      urlpatterns = [
+          path('', views.main_view,
+               name='index'),
+          path('create/', views.create_post,
+               name='create'),
+      ]
+    </pre>
+    <p>Этот вариант применяется, если используется параметр app_name:</p>
+    <pre>
+      path('', include('app_blog.urls',
+                       namespace='blog')),
+    </pre>
+
+
+    <p>Вместо использования в файле my_site/my_app/urls.py
+       параметра app_name можно использовать конструкцию:</p>
+    <pre>
+      path('blog/', include(('app_blog.urls', 'my_blog_app'),
+                            namespace='blog')),
+    </pre>
+    <p>Пример синтаксиса include:</p>
+    <pre>
+     include((pattern_list, app_namespace),
+             namespace=None)
+    </pre>
+
+
+    <p>Теперь можно использовать ссылки вида:</p>
+    <pre>
+      &lt;a href="&lbrace;&percnt; url 'app_name:name' question.id &percnt;&rbrace;">
+              &lbrace;&lbrace; question.question_text &rbrace;&rbrace;&lt;/a>
+    </pre>
+    <p>Этот вариант применяется, если <b>НЕ</b> используется параметр app_name:</p>
+    <pre>
+      path('', include('app_blog.urls'))
+    </pre>
+
+    <p>Теперь можно использовать ссылки вида:</p>
+    <pre>
+      &lt;a href="&lbrace;&percnt; url 'name' question.id &percnt;&rbrace;">
+              &lbrace;&lbrace; question.question_text &rbrace;&rbrace;&lt;/a>
+    </pre>
+
+  <li>Создаём папку статик (static).</li>
+    <p>В итоге папки такие:</p>
+    <ul>
+      <li>my_site/my_site – настройки проекта</li>
+      <li>my_site/static – папка со статикой</li>
+      <li>my_site/my_app – настройки приложения (часть проекта)</li>
+      <li>my_site/my_app/static – папка со статикой</li>
+    </ul>
+    <br>
+
+  <li>Добавляем в конфигурацию my_site/my_site/settings.py папку статик:</li>
+    <pre>
+      STATICFILES_DIRS = [
+          os.path.join(BASE_DIR, &apos;static&apos;),
+          os.path.join(APP_BLOG_DIR, &apos;static&apos;)
+          ]
+    </pre>
+    <p>Это список папок, где Django будет собирать статику (по аналогии с шаблонами)</p>
+
+  <li>Используем так (пример для ссылок):</li>
+    <pre>
+      &lt;link href="&lbrace;&percnt; static 'css/clean-blog.min.css' &percnt;&rbrace;"
+            rel="stylesheet">
+    </pre>
+
+  <li><b>Работа с шаблонами.</b></li>
+    <p>Вначале шаблона ставится загрузка статики:</p>
+    <pre>
+      &lt;!DOCTYPE html>
+      &lbrace;&percnt; load static &percnt;&rbrace;
+      &lt;html lang="ru">
+    </pre>
+    <p>Если какой-то код повторяется, то его можно вынести в другой шаблон.</p>
+    <p>Допустим, base.html – шаблон с повторяющимся кодом, about.html – шаблон с кодом, индивидуальным для страницы.</p>
+    <p>Тогда в base.html:</p>
+    <pre>
+      &lt;!DOCTYPE>
+      &lbrace;&percnt; load static &percnt;&rbrace;
+      &lt;html lang="ru">
+    </pre>
+    <p>Блок с заголовком:</p>
+    <pre>
+      &lt;title>&lbrace;&percnt; block title &percnt;&rbrace;&lbrace;&percnt; endblock &percnt;&rbrace;&lt;/title>
+    </pre>
+
+    <p>Тогда в about.html:</p>
+    <pre>
+      &lbrace;&percnt; extends "base.html" &percnt;&rbrace;
+
+      &lbrace;&percnt; block title &percnt;&rbrace;
+          Это заголовок страницы about.html
+      &lbrace;&percnt; endblock &percnt;&rbrace;
+    </pre>
+    <p>Ну и так по всем блокам.</p>
+
+  <li>Создали папку медиа:</li>
+    <p>В итоге папки такие:</p>
+    <ul>
+      <li>my_site/my_site – настройки проекта</li>
+      <li>my_site/static – папка со статикой</li>
+      <li>my_site/media – папка с медиа</li>
+      <li>my_site/my_app – настройки приложения (часть проекта)</li>
+      <li>my_site/my_app/static – папка со статикой</li>
+    </ul>
+    <br>
+
+
+  <li>Редактируем настройки my_site/my_site/settings.py, добавляя настройки:</li>
+    <blockquote>
+      MEDIA_URL = '/media/'<br>
+      MEDIA_ROOT = os.path.join(BASE_DIR, 'media')<br>
+      MEDIA_URL – адрес для сервера, где брать файл: http://127.0.0.1:8000/media/<br>
+      MEDIA_ROOT – куда грузить файлы
+    </blockquote>
+
+</ol>
