@@ -1,0 +1,26 @@
+{% extends "app_blog/base.html" %}
+
+{% block title %}
+    Это заголовок страницы post.html
+{% endblock %}
+
+<!-- Page Header-->
+{% block site-heading %}{{name}}{% endblock %}
+{% block site-subheading %}categories_list.html - подзаголовок (заголовок 2 уровня){% endblock %}
+
+        <!-- Post Content-->
+        {% block begin_main_content_tag %}
+           <article class="mb-4">
+        {% endblock %}
+            {% block content %}
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </form>
+                    </div>
+            {% endblock %}
+        {% block end_main_content_tag %}
+            </article>
+        {% endblock %}

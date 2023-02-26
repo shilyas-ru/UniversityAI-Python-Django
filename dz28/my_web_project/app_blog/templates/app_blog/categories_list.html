@@ -1,0 +1,40 @@
+{% extends "app_blog/base.html" %}
+
+{% block title %}
+    Это заголовок страницы post.html
+{% endblock %}
+
+<!-- Page Header-->
+{% block site-heading %}{{name}}{% endblock %}
+{% block site-subheading %}category.html - подзаголовок (заголовок 2 уровня){% endblock %}
+
+        <!-- Post Content-->
+        {% block begin_main_content_tag %}
+           <article class="mb-4">
+        {% endblock %}
+            {% block content %}
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <p><a href="{% url 'my_blog_app:cat_create' %}">
+                            Создать новую категорию
+                        </a></p>
+                        {% for category in categories %}
+                            <img src="{{ category.image.url }}" width="75" alt="dsfsf">
+                            <br>Наименование категории:<br>
+                            <a href="{% url 'my_blog_app:cat_detail' pk=category.pk %}">{{category.name}} (это ссылка на категорию)</a><br><br>
+                            {% if category.description %}Описание категории (первые 10 символов):
+                                                         {{category.description|truncatechars:11}}
+                            {% else %}Описание категории отсутствует
+                            {% endif %}<br>
+                            <a href="{% url 'my_blog_app:cat_update' pk=category.pk %}">
+                                [ Действие: Изменить категорию ]
+                            </a><br>
+                            <a href="{% url 'my_blog_app:cat_delete' pk=category.pk %}">
+                                [ Действие: Удалить категорию ]
+                            </a>
+                            <hr>
+                        {% endfor %}
+                    </div>
+            {% endblock %}
+        {% block end_main_content_tag %}
+            </article>
+        {% endblock %}

@@ -1,0 +1,62 @@
+{% extends "app_blog/base.html" %}
+
+{% block title %}
+    Это заголовок страницы post.html
+{% endblock %}
+
+<!-- Page Header-->
+{% block site-heading %}{{name}}{% endblock %}
+{% block site-subheading %}_list.html - подзаголовок (заголовок 2 уровня){% endblock %}
+
+        <!-- Post Content-->
+        {% block begin_main_content_tag %}
+           <article class="mb-4">
+        {% endblock %}
+            {% block content %}
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                                <div class="fieldWrapper">
+                                    {{ form.image.errors }}
+                                    {{ form.image.label_tag }}
+                                    {% if categories.image %}
+                                        <img src="{{ categories.image.url }}" width="150" alt="dsfsf">
+                                    {% endif %}<br>
+                                    {{ form.image }}
+                                    {% if form.image %} {{ form.image.url }}{% endif %}<br>
+                                    <!-- {% if form.image %} {{ form.image.url }}{% endif %}<br>-->
+                                    <!-- <img src="{{ form.image.url }}" width="75" alt="11dsfsf">-->
+                                     <img src="{{ object.image.url }}" width="150" alt="11dsfsf">
+                                    <br><!-- 111{{ form.fields.image }}222-->
+                                    <em> {{ form.image.help_text }}</em>
+                                </div><br>
+                                <div class="fieldWrapper">
+                                    {{ form.name.errors }}
+                                    {{ form.name.label_tag }} {{ form.name }}<br>
+                                    <em> {{ form.name.help_text }}</em>
+                                </div><br>
+                                <div class="fieldWrapper">
+                                    {{ form.description.errors }}
+                                    {{ form.description.label_tag }} {{ form.description }}<br>
+                                    <em> {{ form.description.help_text }}</em>
+                                </div><br>
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </form>
+<br><br><hr><br><br>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="fieldWrapper">
+                                    {{ field.errors }}
+                                    {{ field.label_tag }} {{ field }}<br>
+                                    <em> {{ field.help_text }}</em>
+                                    <p class="help"> {{ field.help_text }}</p>
+                                </div><br>
+                            {% endfor %}
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </form>
+                    </div>
+            {% endblock %}
+        {% block end_main_content_tag %}
+            </article>
+        {% endblock %}
